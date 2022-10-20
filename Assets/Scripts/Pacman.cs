@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ public class Pacman : MonoBehaviour
     public SpriteRenderer spriteRenderer { get; private set; }
     public new Collider2D collider { get; private set; }
     public Movement movement { get; private set; }
+    public Backpack backpack { get; private set; }
     public Text scoreText;
     public bool isP1;
     public bool vulnerable = false;
@@ -22,6 +24,7 @@ public class Pacman : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         collider = GetComponent<Collider2D>();
         movement = GetComponent<Movement>();
+        backpack = GetComponent<Backpack>();
     }
 
     private void Update()
@@ -45,6 +48,13 @@ public class Pacman : MonoBehaviour
             {
                 movement.SetDirection(Vector2.right);
             }
+            else if(Input.GetKeyDown(KeyCode.Q))
+            {
+                if (backpack.CanUsePowerup())
+                {
+                    backpack.UsePowerup(this);
+                }
+            }
         }
         else
         {
@@ -63,6 +73,13 @@ public class Pacman : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 movement.SetDirection(Vector2.right);
+            }
+            else if (Input.GetKeyDown(KeyCode.Minus))
+            {
+                if (backpack.CanUsePowerup())
+                {
+                    backpack.UsePowerup(this);
+                }
             }
         }
 
@@ -126,5 +143,17 @@ public class Pacman : MonoBehaviour
         vulnerable = true;
 
         Invoke("ResetVulnerable", duration);
+    }
+
+    private void ResetMovement()
+    {
+        movement.enabled = true;
+    }
+
+    public void DisableMovement(float duration)
+    {
+        movement.enabled = false;
+
+        Invoke("ResetMovement", duration);
     }
 }

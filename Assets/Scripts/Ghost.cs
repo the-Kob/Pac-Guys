@@ -44,6 +44,18 @@ public class Ghost : MonoBehaviour
         }
     }
 
+    public void Scatter()
+    {
+        frightened.Disable();
+        chase.Disable();
+        scatter.Enable();
+
+        if(!home.enabled)
+        {
+            home.Disable();
+        }
+    }
+
     public void SetPosition(Vector3 position)
     {
         // Keep the z-position the same since it determines draw depth
@@ -63,5 +75,15 @@ public class Ghost : MonoBehaviour
             }
         }
     }
+    private void ResetMovement()
+    {
+        movement.enabled = true;
+    }
 
+    public void DisableMovement(float duration)
+    {
+        movement.enabled = false;
+
+        Invoke("ResetMovement", duration);
+    }
 }

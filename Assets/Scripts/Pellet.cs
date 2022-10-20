@@ -10,10 +10,23 @@ public class Pellet : MonoBehaviour
         FindObjectOfType<GameManager>().PelletEaten(this, player);
     }
 
+    protected virtual void Refill()
+    {
+        FindObjectOfType<GameManager>().PelletRefill(this);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Pacman")) {
-            Eat(other.gameObject.GetComponent<Pacman>());
+        if (this.gameObject.GetComponent<SpriteRenderer>().enabled) {
+            if (other.gameObject.layer == LayerMask.NameToLayer("Pacman")) {
+                Eat(other.gameObject.GetComponent<Pacman>());
+            }
+        }
+        else
+        {
+            if (other.gameObject.layer == LayerMask.NameToLayer("Ghost")) {
+                Refill();
+            }
         }
     }
 }

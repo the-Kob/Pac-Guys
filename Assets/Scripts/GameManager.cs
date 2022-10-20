@@ -118,9 +118,7 @@ public class GameManager : MonoBehaviour
 
         roundOverText.enabled = false;
 
-        foreach (Transform pellet in pellets) {
-            pellet.gameObject.SetActive(true);
-        }
+        RefillBoard();
 
         ResetState();
     }
@@ -237,6 +235,13 @@ public class GameManager : MonoBehaviour
             player2.DeathSequence();
             Invoke("RespawnPlayer2", respawnTime);
         }
+
+
+        // For now the ghosts scatter after a player is eaten, they should change target to the other player - TODO
+        for (int i = 0; i < ghosts.Length; i++)
+        {
+            ghosts[i].Scatter();
+        }
     }
 
     public void GhostEaten(Ghost ghost, Pacman player)
@@ -249,37 +254,28 @@ public class GameManager : MonoBehaviour
 
     public void PelletEaten(Pellet pellet, Pacman player)
     {
-        pellet.gameObject.SetActive(false);
+        pellet.gameObject.GetComponent<SpriteRenderer>().enabled = false;
 
         player.SetScore(player.score + pellet.points);
-
-        /*
-        if (!HasRemainingPellets())
-        {
-            player1.gameObject.SetActive(false);
-            player2.gameObject.SetActive(false);
-            Invoke(nameof(NewRound), 3f);
-        }
-        */
+    }
+ 
+    public void PelletRefill(Pellet pellet)
+    {
+        pellet.gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }
 
     public void PowerPelletEaten(PowerPellet pellet, Pacman player)
     {
-        for (int i = 0; i < ghosts.Length; i++) {
-            ghosts[i].frightened.Enable(pellet.duration);
+        if (player1 == player)
+        {
+            player1.backpack.PickupPowerup(pellet);
         }
-        
-        if(player1 == player)
+        else if (player2 == player)
         {
-            player2.EnableVulnerable(pellet.duration);
-        } else if(player2 == player)
-        {
-            player1.EnableVulnerable(pellet.duration);        
+            player2.backpack.PickupPowerup(pellet);
         }
 
         PelletEaten(pellet, player);
-        CancelInvoke(nameof(ResetGhostMultiplier));
-        Invoke(nameof(ResetGhostMultiplier), pellet.duration);
     }
 
     private bool HasRemainingPellets()
@@ -297,5 +293,54 @@ public class GameManager : MonoBehaviour
     private void ResetGhostMultiplier()
     {
         ghostMultiplier = 1;
+    }
+
+    public void ActivateStarPowerup(PowerPellet powerup, Pacman player)
+    {
+        for (int i = 0; i < ghosts.Length; i++)
+        {
+            ghosts[i].frightened.Enable(powerup.duration);
+        }
+
+        if (player1 == player)
+        {
+            player2.EnableVulnerable(powerup.duration);
+        }
+        else if (player2 == player)
+        {
+            player1.EnableVulnerable(powerup.duration);
+        }
+
+        CancelInvoke(nameof(ResetGhostMultiplier));
+        Invoke(nameof(ResetGhostMultiplier), powerup.duration);
+    }
+
+    public void RefillBoard()
+    {
+        foreach (Transform pellet in pellets)
+        {
+            pellet.gameObject.SetActive(true);
+        }
+    }
+
+    public void ActivateFreezePowerup(PowerPellet powerup, Pacman player)
+    {
+        // NOT WORKING - TODO
+
+        /*
+        for (int i = 0; i < ghosts.Length; i++)
+        {
+            ghosts[i].DisableMovement(powerup.duration);
+        }
+
+        if (player1 == player)
+        {
+            player2.DisableMovement(powerup.duration);
+        }
+        else if (player2 == player)
+        {
+            player1.DisableMovement(powerup.duration);
+        }
+        */
     }
 }
