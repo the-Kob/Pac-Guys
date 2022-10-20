@@ -313,11 +313,23 @@ public class GameManager : MonoBehaviour
 
         if (player1 == player)
         {
-            player2.SlowMovementSpeed(powerup.power, powerup.duration);
+            player2.ChangeMovementSpeed(powerup.power, powerup.duration);
         }
         else if (player2 == player)
         {
-            player1.SlowMovementSpeed(powerup.power, powerup.duration);
+            player1.ChangeMovementSpeed(powerup.power, powerup.duration);
+        }
+    }
+
+    public void ActivateSpeedPowerup(PowerPellet powerup, Pacman player)
+    {
+        if (player1 == player)
+        {
+            player1.ChangeMovementSpeed(powerup.power, powerup.duration);
+        }
+        else if (player2 == player)
+        {
+            player2.ChangeMovementSpeed(powerup.power, powerup.duration);
         }
     }
 }

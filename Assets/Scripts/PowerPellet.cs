@@ -14,7 +14,8 @@ public class PowerPellet : Pellet
         star, 
         refill,
         projectile,
-        freeze
+        freeze,
+        speed
     }
 
     public void selectType()
@@ -54,7 +55,7 @@ public class PowerPellet : Pellet
         {
             duration = 8.0f;
         } 
-        else if (this.type == Type.freeze)
+        else if (this.type == Type.freeze || this.type == Type.speed)
         {
             duration = 3.0f;
         }
@@ -75,6 +76,11 @@ public class PowerPellet : Pellet
         {
             // Slow multiplier
             power = 0.25f;
+        }
+        else if (this.type == Type.speed)
+        {
+            // Speed multiplier
+            power = 1.5f;
         }
         else if (this.type == Type.star || this.type == Type.refill)
         {

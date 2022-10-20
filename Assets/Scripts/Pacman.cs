@@ -150,9 +150,9 @@ public class Pacman : MonoBehaviour
         movement.ResetSpeedMultiplyer();
     }
 
-    public void SlowMovementSpeed(float slowMultiplier, float duration)
+    public void ChangeMovementSpeed(float speedMultiplier, float duration)
     {
-        movement.speedMultiplier = slowMultiplier;
+        movement.speedMultiplier = speedMultiplier;
 
         Invoke("ResetMovementSpeed", duration);
     }
