@@ -22,10 +22,10 @@ public class GameManager : MonoBehaviour
     public Text gameOverText;
     public Text scoreText;
     public Text timerText;
-
     public int ghostMultiplier { get; private set; } = 1;
 
     float timer;
+    bool roundOngoing;
 
     public enum RoundState
     {
@@ -96,7 +96,6 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         UpdateTimer();
-        UpdateGlobalScore();
 
         // Check if max global score has been reached by a player
         if ((score.p1Score >= MAX_SCORE || score.p2Score >= MAX_SCORE) && Input.anyKeyDown) {
@@ -113,6 +112,7 @@ public class GameManager : MonoBehaviour
 
     private void NewRound()
     {
+        roundOngoing = true;
         // Reset timer
         timer = 0f;
 
@@ -154,6 +154,7 @@ public class GameManager : MonoBehaviour
 
     private void RoundOver()
     {
+        roundOngoing = false;
         roundOverText.enabled = true;
 
         for (int i = 0; i < ghosts.Length; i++) {
@@ -176,6 +177,8 @@ public class GameManager : MonoBehaviour
         }
         
         score.UpdateScore(state);
+
+        UpdateGlobalScore();
     }
 
     private void GameOver()
@@ -196,9 +199,12 @@ public class GameManager : MonoBehaviour
     {
         if(timer >= MAX_TIME)
         {
-            RoundOver();
+            if(roundOngoing)
+            {
+                RoundOver();
 
-            Invoke("NewRound", 5f);
+                Invoke("NewRound", 5f);
+            }
         } else
         {
             timer += Time.deltaTime;
@@ -212,14 +218,22 @@ public class GameManager : MonoBehaviour
         scoreText.text = score.p1Score.ToString() + " / " + score.p2Score.ToString();
     }
 
-    public void PacmanEaten(bool isP1)
+    public void PacmanEaten(bool eatenByPlayer, bool isP1)
     {
         if (isP1)
         {
+            if(eatenByPlayer)
+            {
+                player2.SetScore(player2.score + player1.points);
+            }
             player1.DeathSequence();
             Invoke("RespawnPlayer1", respawnTime);
         } else
         {
+            if (eatenByPlayer)
+            {
+                player1.SetScore(player1.score + player2.points);
+            }
             player2.DeathSequence();
             Invoke("RespawnPlayer2", respawnTime);
         }
@@ -253,6 +267,14 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < ghosts.Length; i++) {
             ghosts[i].frightened.Enable(pellet.duration);
+        }
+        
+        if(player1 == player)
+        {
+            player2.EnableVulnerable(pellet.duration);
+        } else if(player2 == player)
+        {
+            player1.EnableVulnerable(pellet.duration);        
         }
 
         PelletEaten(pellet, player);

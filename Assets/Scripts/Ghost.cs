@@ -59,7 +59,7 @@ public class Ghost : MonoBehaviour
                 FindObjectOfType<GameManager>().GhostEaten(this, collision.gameObject.GetComponent<Pacman>());
             } else {
                 bool isP1 = collision.gameObject.GetComponent<Pacman>().isP1;
-                FindObjectOfType<GameManager>().PacmanEaten(isP1);
+                FindObjectOfType<GameManager>().PacmanEaten(false, isP1);
             }
         }
     }

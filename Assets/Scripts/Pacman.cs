@@ -10,7 +10,10 @@ public class Pacman : MonoBehaviour
     public Movement movement { get; private set; }
     public Text scoreText;
     public bool isP1;
-    public bool vulnerable;
+    public bool vulnerable = false;
+
+    [HideInInspector]
+    public int points = 500;
     public Vector3 startingPosition { get; set; }
     public int score { get; set; }
 
@@ -70,7 +73,10 @@ public class Pacman : MonoBehaviour
 
     public void ResetState()
     {
-        vulnerable = false;
+        if(!vulnerable)
+        {
+            ResetVulnerable();
+        }
         enabled = true;
         spriteRenderer.enabled = true;
         collider.enabled = true;
@@ -96,5 +102,29 @@ public class Pacman : MonoBehaviour
     {
         this.score = score;
         scoreText.text = score.ToString().PadLeft(2, '0');
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman"))
+        {
+            Pacman otherPlayer = collision.gameObject.GetComponent<Pacman>();
+            if (otherPlayer.vulnerable)
+            {
+                FindObjectOfType<GameManager>().PacmanEaten(true, otherPlayer.isP1);
+            }
+        }
+    }
+
+    private void ResetVulnerable()
+    {
+        vulnerable = false;
+    }
+
+    public void EnableVulnerable(float duration)
+    {
+        vulnerable = true;
+
+        Invoke("ResetVulnerable", duration);
     }
 }
