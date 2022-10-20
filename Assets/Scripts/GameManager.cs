@@ -1,42 +1,122 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
+    const float MAX_TIME = 120f;
+    const int MAX_SCORE = 3;
+
     public Ghost[] ghosts;
-    public Pacman pacman;
+    public Pacman player1;
+    public Pacman player2;
+    public List<Vector3> startPositionsP1;
+    public List<Vector3> startPositionsP2;
+    public float respawnTime;
     public Transform pellets;
 
+    public Text roundOverText;
     public Text gameOverText;
     public Text scoreText;
-    public Text livesText;
+    public Text timerText;
 
     public int ghostMultiplier { get; private set; } = 1;
-    public int score { get; private set; }
-    public int lives { get; private set; }
+
+    float timer;
+
+    public enum RoundState
+    {
+        p1,
+        p2,
+        none
+    }
+
+    #region Global Score information
+    public GlobalScore score;
+
+    public class GlobalScore {
+        public int p1Score { get; set; }
+        public int p2Score { get; set; }
+
+        public GlobalScore()
+        {
+            ResetScore();
+        }
+
+        public void UpdateScore(RoundState state)
+        {
+            if(state == RoundState.p1)
+            {
+                p1Score++;
+            } else if(state == RoundState.p2)
+            {
+                p2Score++;
+            } else if(state == RoundState.none)
+            {
+                p1Score++;
+                p2Score++;
+            }
+        }
+
+        public void ResetScore()
+        {
+            p1Score = 0;
+            p2Score = 0;
+        }
+
+        public String WinMessage()
+        {
+            String msg;
+            if(p1Score > p2Score)
+            {
+                msg = "PLAYER 1 WINS!";
+            } else if(p2Score > p1Score)
+            {
+                msg = "PLAYER 2 WINS!";
+            } else
+            {
+                msg = "TIE!";
+            }
+
+            return msg;
+        }
+    }
+
+    #endregion
 
     private void Start()
     {
+        score = new GlobalScore();
         NewGame();
     }
 
     private void Update()
     {
-        if (lives <= 0 && Input.anyKeyDown) {
+        UpdateTimer();
+        UpdateGlobalScore();
+
+        // Check if max global score has been reached by a player
+        if ((score.p1Score >= MAX_SCORE || score.p2Score >= MAX_SCORE) && Input.anyKeyDown) {
+            // In the future can take the players to a menu screen  
             NewGame();
         }
     }
 
     private void NewGame()
     {
-        SetScore(0);
-        SetLives(3);
+        gameOverText.enabled = false;
         NewRound();
     }
 
     private void NewRound()
     {
-        gameOverText.enabled = false;
+        // Reset timer
+        timer = 0f;
+
+        roundOverText.enabled = false;
 
         foreach (Transform pellet in pellets) {
             pellet.gameObject.SetActive(true);
@@ -51,73 +131,131 @@ public class GameManager : MonoBehaviour
             ghosts[i].ResetState();
         }
 
-        pacman.ResetState();
+        int posIndex = Random.Range(0, startPositionsP1.Count);
+
+        player1.startingPosition = startPositionsP1[posIndex];
+        player1.SetScore(0);
+        RespawnPlayer1();
+
+        player2.startingPosition = startPositionsP2[posIndex];
+        player2.SetScore(0);
+        player2.ResetState();
     }
 
-    private void GameOver()
+    private void RespawnPlayer1()
     {
-        gameOverText.enabled = true;
+        player1.ResetState();
+    }
+
+    private void RespawnPlayer2()
+    {
+        player2.ResetState();
+    }
+
+    private void RoundOver()
+    {
+        roundOverText.enabled = true;
 
         for (int i = 0; i < ghosts.Length; i++) {
             ghosts[i].gameObject.SetActive(false);
         }
 
-        pacman.gameObject.SetActive(false);
+        player1.gameObject.SetActive(false);
+        player2.gameObject.SetActive(false);
+        
+        RoundState state;
+        if(player1.score > player2.score)
+        {
+            state = RoundState.p1;
+        } else if(player1.score < player2.score)
+        {
+            state = RoundState.p2;
+        } else
+        {
+            state = RoundState.none;
+        }
+        
+        score.UpdateScore(state);
     }
 
-    private void SetLives(int lives)
+    private void GameOver()
     {
-        this.lives = lives;
-        livesText.text = "x" + lives.ToString();
+        gameOverText.enabled = true;
+        gameOverText.text = score.WinMessage();
+
+        for (int i = 0; i < ghosts.Length; i++)
+        {
+            ghosts[i].gameObject.SetActive(false);
+        }
+
+        player1.gameObject.SetActive(false);
+        player2.gameObject.SetActive(false);
     }
 
-    private void SetScore(int score)
+    private void UpdateTimer()
     {
-        this.score = score;
-        scoreText.text = score.ToString().PadLeft(2, '0');
+        if(timer >= MAX_TIME)
+        {
+            RoundOver();
+
+            Invoke("NewRound", 5f);
+        } else
+        {
+            timer += Time.deltaTime;
+        }
+
+        timerText.text = ((int)timer).ToString();
     }
 
-    public void PacmanEaten()
+    private void UpdateGlobalScore()
     {
-        pacman.DeathSequence();
+        scoreText.text = score.p1Score.ToString() + " / " + score.p2Score.ToString();
+    }
 
-        SetLives(lives - 1);
-
-        if (lives > 0) {
-            Invoke(nameof(ResetState), 3f);
-        } else {
-            GameOver();
+    public void PacmanEaten(bool isP1)
+    {
+        if (isP1)
+        {
+            player1.DeathSequence();
+            Invoke("RespawnPlayer1", respawnTime);
+        } else
+        {
+            player2.DeathSequence();
+            Invoke("RespawnPlayer2", respawnTime);
         }
     }
 
-    public void GhostEaten(Ghost ghost)
+    public void GhostEaten(Ghost ghost, Pacman player)
     {
         int points = ghost.points * ghostMultiplier;
-        SetScore(score + points);
+        player.SetScore(player.score + points);
 
         ghostMultiplier++;
     }
 
-    public void PelletEaten(Pellet pellet)
+    public void PelletEaten(Pellet pellet, Pacman player)
     {
         pellet.gameObject.SetActive(false);
 
-        SetScore(score + pellet.points);
+        player.SetScore(player.score + pellet.points);
 
+        /*
         if (!HasRemainingPellets())
         {
-            pacman.gameObject.SetActive(false);
+            player1.gameObject.SetActive(false);
+            player2.gameObject.SetActive(false);
             Invoke(nameof(NewRound), 3f);
         }
+        */
     }
 
-    public void PowerPelletEaten(PowerPellet pellet)
+    public void PowerPelletEaten(PowerPellet pellet, Pacman player)
     {
         for (int i = 0; i < ghosts.Length; i++) {
             ghosts[i].frightened.Enable(pellet.duration);
         }
 
-        PelletEaten(pellet);
+        PelletEaten(pellet, player);
         CancelInvoke(nameof(ResetGhostMultiplier));
         Invoke(nameof(ResetGhostMultiplier), pellet.duration);
     }
@@ -138,5 +276,4 @@ public class GameManager : MonoBehaviour
     {
         ghostMultiplier = 1;
     }
-
 }

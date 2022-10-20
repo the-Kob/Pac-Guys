@@ -1,8 +1,15 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Movement : MonoBehaviour
 {
+    class SpawnPositions
+    {
+        public Vector3 Player1Pos;
+        public Vector3 Player2Pos;
+    }
+
     public float speed = 8f;
     public float speedMultiplier = 1f;
     public Vector2 initialDirection;
@@ -11,12 +18,11 @@ public class Movement : MonoBehaviour
     public new Rigidbody2D rigidbody { get; private set; }
     public Vector2 direction { get; private set; }
     public Vector2 nextDirection { get; private set; }
-    public Vector3 startingPosition { get; private set; }
+    public Vector3 startingPosition { get; set; }
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
-        startingPosition = transform.position;
     }
 
     private void Start()

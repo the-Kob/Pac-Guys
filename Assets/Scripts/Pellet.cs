@@ -5,16 +5,15 @@ public class Pellet : MonoBehaviour
 {
     public int points = 10;
 
-    protected virtual void Eat()
+    protected virtual void Eat(Pacman player)
     {
-        FindObjectOfType<GameManager>().PelletEaten(this);
+        FindObjectOfType<GameManager>().PelletEaten(this, player);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Pacman")) {
-            Eat();
+            Eat(other.gameObject.GetComponent<Pacman>());
         }
     }
-
 }

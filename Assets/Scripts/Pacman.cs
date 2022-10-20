@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Movement))]
 public class Pacman : MonoBehaviour
@@ -7,6 +8,11 @@ public class Pacman : MonoBehaviour
     public SpriteRenderer spriteRenderer { get; private set; }
     public new Collider2D collider { get; private set; }
     public Movement movement { get; private set; }
+    public Text scoreText;
+    public bool isP1;
+    public bool vulnerable;
+    public Vector3 startingPosition { get; set; }
+    public int score { get; set; }
 
     private void Awake()
     {
@@ -17,18 +23,44 @@ public class Pacman : MonoBehaviour
 
     private void Update()
     {
-        // Set the new direction based on the current input
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
-            movement.SetDirection(Vector2.up);
+        if (isP1)
+        {
+            // Set the new direction based on the current input
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                movement.SetDirection(Vector2.up);
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                movement.SetDirection(Vector2.down);
+            }
+            else if (Input.GetKeyDown(KeyCode.A))
+            {
+                movement.SetDirection(Vector2.left);
+            }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                movement.SetDirection(Vector2.right);
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) {
-            movement.SetDirection(Vector2.down);
-        }
-        else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
-            movement.SetDirection(Vector2.left);
-        }
-        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
-            movement.SetDirection(Vector2.right);
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                movement.SetDirection(Vector2.up);
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                movement.SetDirection(Vector2.down);
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                movement.SetDirection(Vector2.left);
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                movement.SetDirection(Vector2.right);
+            }
         }
 
         // Rotate pacman to face the movement direction
@@ -38,11 +70,13 @@ public class Pacman : MonoBehaviour
 
     public void ResetState()
     {
+        vulnerable = false;
         enabled = true;
         spriteRenderer.enabled = true;
         collider.enabled = true;
         deathSequence.enabled = false;
         deathSequence.spriteRenderer.enabled = false;
+        movement.startingPosition = startingPosition;
         movement.ResetState();
         gameObject.SetActive(true);
     }
@@ -58,4 +92,9 @@ public class Pacman : MonoBehaviour
         deathSequence.Restart();
     }
 
+    public void SetScore(int score)
+    {
+        this.score = score;
+        scoreText.text = score.ToString().PadLeft(2, '0');
+    }
 }
