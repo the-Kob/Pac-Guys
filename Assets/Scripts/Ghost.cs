@@ -75,15 +75,16 @@ public class Ghost : MonoBehaviour
             }
         }
     }
-    private void ResetMovement()
+
+    private void ResetMovementSpeed()
     {
-        movement.enabled = true;
+        movement.ResetSpeedMultiplyer();
     }
 
-    public void DisableMovement(float duration)
+    public void SlowMovementSpeed(float slowMultiplier, float duration)
     {
-        movement.enabled = false;
+        movement.speedMultiplier = slowMultiplier;
 
-        Invoke("ResetMovement", duration);
+        Invoke("ResetMovementSpeed", duration);
     }
 }

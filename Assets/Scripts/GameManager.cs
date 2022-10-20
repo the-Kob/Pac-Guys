@@ -235,13 +235,6 @@ public class GameManager : MonoBehaviour
             player2.DeathSequence();
             Invoke("RespawnPlayer2", respawnTime);
         }
-
-
-        // For now the ghosts scatter after a player is eaten, they should change target to the other player - TODO
-        for (int i = 0; i < ghosts.Length; i++)
-        {
-            ghosts[i].Scatter();
-        }
     }
 
     public void GhostEaten(Ghost ghost, Pacman player)
@@ -278,18 +271,6 @@ public class GameManager : MonoBehaviour
         PelletEaten(pellet, player);
     }
 
-    private bool HasRemainingPellets()
-    {
-        foreach (Transform pellet in pellets)
-        {
-            if (pellet.gameObject.activeSelf) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     private void ResetGhostMultiplier()
     {
         ghostMultiplier = 1;
@@ -319,28 +300,24 @@ public class GameManager : MonoBehaviour
     {
         foreach (Transform pellet in pellets)
         {
-            pellet.gameObject.SetActive(true);
+            pellet.gameObject.GetComponent<SpriteRenderer>().enabled = true;
         }
     }
 
     public void ActivateFreezePowerup(PowerPellet powerup, Pacman player)
     {
-        // NOT WORKING - TODO
-
-        /*
         for (int i = 0; i < ghosts.Length; i++)
         {
-            ghosts[i].DisableMovement(powerup.duration);
+            ghosts[i].SlowMovementSpeed(powerup.power, powerup.duration);
         }
 
         if (player1 == player)
         {
-            player2.DisableMovement(powerup.duration);
+            player2.SlowMovementSpeed(powerup.power, powerup.duration);
         }
         else if (player2 == player)
         {
-            player1.DisableMovement(powerup.duration);
+            player1.SlowMovementSpeed(powerup.power, powerup.duration);
         }
-        */
     }
 }

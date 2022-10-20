@@ -5,7 +5,8 @@ using Random = UnityEngine.Random;
 
 public class PowerPellet : Pellet
 {
-    public float duration = 0f;
+    public float duration { get; private set; }
+    public float power { get; private set; }
     public Type type;
 
     public enum Type
@@ -36,6 +37,7 @@ public class PowerPellet : Pellet
                 Eat(other.gameObject.GetComponent<Pacman>());
                 selectType();
                 UpdateDuration();
+                UpdatePower();
             }
         }
         else
@@ -54,11 +56,29 @@ public class PowerPellet : Pellet
         } 
         else if (this.type == Type.freeze)
         {
-            duration = 2.5f;
+            duration = 3.0f;
         }
         else if (this.type == Type.projectile || this.type == Type.refill)
         {
             duration = 0f;
+        }
+    }
+
+    private void UpdatePower()
+    {
+        if (this.type == Type.projectile)
+        {
+            // Projectile speed - value TBD
+            power = 0.0f;
+        }
+        else if (this.type == Type.freeze)
+        {
+            // Slow multiplier
+            power = 0.25f;
+        }
+        else if (this.type == Type.star || this.type == Type.refill)
+        {
+            power = 0f;
         }
     }
 }

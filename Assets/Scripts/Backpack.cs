@@ -37,8 +37,9 @@ public class Backpack : MonoBehaviour
         else if (powerup.type == PowerPellet.Type.freeze)
         {
             // Freeze opponent and ghosts
+            FindObjectOfType<GameManager>().ActivateFreezePowerup(powerup, player);
 
-            // TODO
+            this.powerup = null;
         }
         else if (powerup.type == PowerPellet.Type.refill)
         {

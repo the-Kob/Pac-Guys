@@ -80,4 +80,8 @@ public class Movement : MonoBehaviour
         return hit.collider != null;
     }
 
+    public void ResetSpeedMultiplyer()
+    {
+        speedMultiplier = 1f;
+    }
 }
