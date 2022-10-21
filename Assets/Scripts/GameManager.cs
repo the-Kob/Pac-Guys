@@ -11,11 +11,15 @@ public class GameManager : MonoBehaviour
     const int MAX_SCORE = 3;
 
     public Ghost[] ghosts;
+    [Range(5, 30)] // Between 5 and 30 seconds
+    public int ghostChangeTargetInterval;
+
     public Pacman player1;
     public Pacman player2;
     public List<Vector3> startPositionsP1;
     public List<Vector3> startPositionsP2;
     public float respawnTime;
+
     public Transform pellets;
 
     public Text roundOverText;
@@ -96,6 +100,11 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         UpdateTimer();
+
+        if(timer % ghostChangeTargetInterval == 0)
+        {
+            UpdateGhostsTarget();
+        }
 
         // Check if max global score has been reached by a player
         if ((score.p1Score >= MAX_SCORE || score.p2Score >= MAX_SCORE) && Input.anyKeyDown) {
@@ -223,7 +232,13 @@ public class GameManager : MonoBehaviour
             if(eatenByPlayer)
             {
                 player2.SetScore(player2.score + player1.points);
+            } 
+            else
+            {
+                // Ghosts subtract their points if they kill you
+                player1.SetScore(player1.score - 200);
             }
+
             player1.DeathSequence();
             Invoke("RespawnPlayer1", respawnTime);
         } else
@@ -232,6 +247,12 @@ public class GameManager : MonoBehaviour
             {
                 player1.SetScore(player1.score + player2.points);
             }
+            else
+            {
+                // Ghosts subtract their points if they kill you
+                player2.SetScore(player2.score - 200);
+            }
+
             player2.DeathSequence();
             Invoke("RespawnPlayer2", respawnTime);
         }
@@ -330,6 +351,14 @@ public class GameManager : MonoBehaviour
         else if (player2 == player)
         {
             player2.ChangeMovementSpeed(powerup.power, powerup.duration);
+        }
+    }
+
+    private void UpdateGhostsTarget()
+    {
+        for (int i = 0; i < ghosts.Length; i++)
+        {
+            ghosts[i].RandomlyChangeTarget();
         }
     }
 }

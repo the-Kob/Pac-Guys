@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Movement))]
 public class Ghost : MonoBehaviour
@@ -9,7 +11,9 @@ public class Ghost : MonoBehaviour
     public GhostChase chase { get; private set; }
     public GhostFrightened frightened { get; private set; }
     public GhostBehavior initialBehavior;
-    public Transform target;
+    public List<Transform> targets;
+    [HideInInspector]
+    public Transform mainTarget;
     public int points = 200;
 
     private void Awake()
@@ -86,5 +90,23 @@ public class Ghost : MonoBehaviour
         movement.speedMultiplier = slowMultiplier;
 
         Invoke("ResetMovementSpeed", duration);
+    }
+
+    public void RandomlyChangeTarget()
+    {
+        int index = Random.Range(0, targets.Count);
+
+        mainTarget = targets[index];
+    }
+
+    public void ChangeTarget()
+    {
+        if(mainTarget == targets[0])
+        {
+            mainTarget = targets[targets.Count];
+        } else
+        {
+            mainTarget = targets[0];
+        }
     }
 }
