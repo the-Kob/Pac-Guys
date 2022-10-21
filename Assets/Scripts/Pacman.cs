@@ -12,15 +12,17 @@ public class Pacman : MonoBehaviour
     public Backpack backpack { get; private set; }
     public Text scoreText;
     public bool isP1;
-
-    [HideInInspector]
-    public bool vulnerable = false;
-
-    [HideInInspector]
-    public int points = 500;
     public Vector3 startingPosition { get; set; }
     public int score { get; set; }
+    public float invulnerabilityTime = 1.5f;
 
+    [HideInInspector]
+    public bool invulnerable = false;
+    [HideInInspector]
+    public bool vulnerable = false;
+    [HideInInspector]
+    public int points = 500;
+    
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -96,6 +98,7 @@ public class Pacman : MonoBehaviour
         {
             ResetVulnerable();
         }
+        EnableInvulnerable();
         enabled = true;
         spriteRenderer.enabled = true;
         collider.enabled = true;
@@ -145,6 +148,18 @@ public class Pacman : MonoBehaviour
         vulnerable = true;
 
         Invoke("ResetVulnerable", duration);
+    }
+
+    private void ResetInvulnerable()
+    {
+        invulnerable = false;
+    }
+
+    private void EnableInvulnerable()
+    {
+        invulnerable = true;
+
+        Invoke("ResetInvulnerable", invulnerabilityTime);
     }
 
     private void ResetMovementSpeed()

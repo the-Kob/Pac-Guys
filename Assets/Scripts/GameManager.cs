@@ -146,7 +146,7 @@ public class GameManager : MonoBehaviour
 
         player2.startingPosition = startPositionsP2[posIndex];
         player2.SetScore(0);
-        player2.ResetState();
+        RespawnPlayer2();
     }
 
     private void RespawnPlayer1()
