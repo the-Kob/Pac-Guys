@@ -209,8 +209,13 @@ public class GameManager : MonoBehaviour
             if(roundOngoing)
             {
                 RoundOver();
-
-                Invoke("NewRound", 5f);
+                if(score.p1Score < 3 && score.p2Score < 3)
+                {
+                    Invoke("NewRound", 5f);
+                } else
+                {
+                    GameOver();
+                }
             }
         } else
         {

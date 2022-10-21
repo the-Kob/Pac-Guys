@@ -12692,7 +12692,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: TIME    UP
+  m_Text: TIME'S    UP
 --- !u!222 &2106437198
 CanvasRenderer:
   m_ObjectHideFlags: 0
