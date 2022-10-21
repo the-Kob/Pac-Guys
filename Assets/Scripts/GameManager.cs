@@ -231,12 +231,18 @@ public class GameManager : MonoBehaviour
         {
             if(eatenByPlayer)
             {
-                player2.SetScore(player2.score + player1.points);
+                int result = player2.score + player1.points;
+                player2.SetScore(result);
             } 
             else
             {
                 // Ghosts subtract their points if they kill you
-                player1.SetScore(player1.score - 200);
+                int result = player1.score - 200;
+                if(result < 0)
+                {
+                    result = 0;
+                }
+                player1.SetScore(result);
             }
 
             player1.DeathSequence();
@@ -245,12 +251,18 @@ public class GameManager : MonoBehaviour
         {
             if (eatenByPlayer)
             {
-                player1.SetScore(player1.score + player2.points);
+                int result = player2.score + player1.points;
+                player1.SetScore(result);
             }
             else
             {
                 // Ghosts subtract their points if they kill you
-                player2.SetScore(player2.score - 200);
+                int result = player2.score - 200;
+                if (result < 0)
+                {
+                    result = 0;
+                }
+                player2.SetScore(result);
             }
 
             player2.DeathSequence();
@@ -261,7 +273,9 @@ public class GameManager : MonoBehaviour
     public void GhostEaten(Ghost ghost, Pacman player)
     {
         int points = ghost.points * ghostMultiplier;
-        player.SetScore(player.score + points);
+
+        int result = player.score + points;
+        player.SetScore(result);
 
         ghostMultiplier++;
     }
@@ -270,7 +284,8 @@ public class GameManager : MonoBehaviour
     {
         pellet.gameObject.GetComponent<SpriteRenderer>().enabled = false;
 
-        player.SetScore(player.score + pellet.points);
+        int result = player.score + pellet.points;
+        player.SetScore(result);
     }
  
     public void PelletRefill(Pellet pellet)
