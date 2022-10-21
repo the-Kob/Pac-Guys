@@ -46,18 +46,8 @@ public class Ghost : MonoBehaviour
         if (initialBehavior != null) {
             initialBehavior.Enable();
         }
-    }
 
-    public void Scatter()
-    {
-        frightened.Disable();
-        chase.Disable();
-        scatter.Enable();
-
-        if(!home.enabled)
-        {
-            home.Disable();
-        }
+        RandomlyChangeTarget();
     }
 
     public void SetPosition(Vector3 position)
@@ -97,16 +87,5 @@ public class Ghost : MonoBehaviour
         int index = Random.Range(0, targets.Count);
 
         mainTarget = targets[index];
-    }
-
-    public void ChangeTarget()
-    {
-        if(mainTarget == targets[0])
-        {
-            mainTarget = targets[targets.Count];
-        } else
-        {
-            mainTarget = targets[0];
-        }
     }
 }

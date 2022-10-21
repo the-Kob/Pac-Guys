@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public Ghost[] ghosts;
     [Range(5, 30)] // Between 5 and 30 seconds
     public int ghostChangeTargetInterval;
+    public int ghostMultiplier { get; private set; } = 1;
 
     public Pacman player1;
     public Pacman player2;
@@ -26,7 +27,6 @@ public class GameManager : MonoBehaviour
     public Text gameOverText;
     public Text scoreText;
     public Text timerText;
-    public int ghostMultiplier { get; private set; } = 1;
 
     float timer;
     bool roundOngoing;
