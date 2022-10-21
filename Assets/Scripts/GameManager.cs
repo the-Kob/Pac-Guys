@@ -238,44 +238,50 @@ public class GameManager : MonoBehaviour
     {
         if (isP1)
         {
-            if(eatenByPlayer)
+            if(!player1.invulnerable)
             {
-                int result = player2.score + player1.points;
-                player2.SetScore(result);
-            } 
-            else
-            {
-                // Ghosts subtract their points if they kill you
-                int result = player1.score - 200;
-                if(result < 0)
+                if (eatenByPlayer)
                 {
-                    result = 0;
+                    int result = player2.score + player1.points;
+                    player2.SetScore(result);
                 }
-                player1.SetScore(result);
-            }
+                else
+                {
+                    // Ghosts subtract their points if they kill you
+                    int result = player1.score - 200;
+                    if (result < 0)
+                    {
+                        result = 0;
+                    }
+                    player1.SetScore(result);
+                }
 
-            player1.DeathSequence();
-            Invoke("RespawnPlayer1", respawnTime);
+                player1.DeathSequence();
+                Invoke("RespawnPlayer1", respawnTime);
+            }
         } else
         {
-            if (eatenByPlayer)
+            if(!player2.invulnerable)
             {
-                int result = player2.score + player1.points;
-                player1.SetScore(result);
-            }
-            else
-            {
-                // Ghosts subtract their points if they kill you
-                int result = player2.score - 200;
-                if (result < 0)
+                if (eatenByPlayer)
                 {
-                    result = 0;
+                    int result = player2.score + player1.points;
+                    player1.SetScore(result);
                 }
-                player2.SetScore(result);
-            }
+                else
+                {
+                    // Ghosts subtract their points if they kill you
+                    int result = player2.score - 200;
+                    if (result < 0)
+                    {
+                        result = 0;
+                    }
+                    player2.SetScore(result);
+                }
 
-            player2.DeathSequence();
-            Invoke("RespawnPlayer2", respawnTime);
+                player2.DeathSequence();
+                Invoke("RespawnPlayer2", respawnTime);
+            }
         }
     }
 
