@@ -12,6 +12,7 @@ public class Pacman : MonoBehaviour
     public Backpack backpack { get; private set; }
     public Text scoreText;
     public bool isP1;
+    [HideInInspector]
     public bool vulnerable = false;
 
     [HideInInspector]
