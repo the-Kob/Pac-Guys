@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -200,6 +201,9 @@ public class GameManager : MonoBehaviour
 
         player1.gameObject.SetActive(false);
         player2.gameObject.SetActive(false);
+
+        // After 5 seconds, go back to the main menu
+        Invoke("GoBackToMainMenu", 5f);
     }
 
     private void UpdateTimer()
@@ -380,5 +384,10 @@ public class GameManager : MonoBehaviour
         {
             ghosts[i].RandomlyChangeTarget();
         }
+    }
+
+    private void GoBackToMainMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 }
