@@ -267,7 +267,7 @@ public class GameManager : MonoBehaviour
             {
                 if (eatenByPlayer)
                 {
-                    int result = player2.score + player1.points;
+                    int result = player1.score + player2.points;
                     player1.SetScore(result);
                 }
                 else

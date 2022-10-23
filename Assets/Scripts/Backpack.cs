@@ -11,7 +11,7 @@ public class Backpack : MonoBehaviour
 
     private void Start()
     {
-        isEmpty = false;
+        isEmpty = true;
         powerup = null;
     }
 
@@ -19,41 +19,31 @@ public class Backpack : MonoBehaviour
     {
         isEmpty = false;
         this.powerup = powerup;
-        // Fill backpack with Powerup
     }
 
     public void UsePowerup(Pacman player)
     {
         // Use powerup in backpack
-        isEmpty = true;
         Debug.Log(player + " has used a " + this.powerup.type + " powerup!");
 
         if (this.powerup.type == PowerPellet.Type.star)
         {
             FindObjectOfType<GameManager>().ActivateStarPowerup(powerup, player);
-            
-            this.powerup = null;
         }
         else if (powerup.type == PowerPellet.Type.freeze)
         {
             // Freeze opponent and ghosts
             FindObjectOfType<GameManager>().ActivateFreezePowerup(powerup, player);
-
-            this.powerup = null;
         }
         else if (powerup.type == PowerPellet.Type.speed)
         {
             // Freeze opponent and ghosts
             FindObjectOfType<GameManager>().ActivateSpeedPowerup(powerup, player);
-
-            this.powerup = null;
         }
         else if (powerup.type == PowerPellet.Type.refill)
         {
             // Refill the board with pellets
             FindObjectOfType<GameManager>().RefillBoard();
-            
-            this.powerup = null;
         }
         else if (powerup.type == PowerPellet.Type.projectile)
         {
@@ -61,10 +51,18 @@ public class Backpack : MonoBehaviour
 
             // TODO
         }
+
+        powerup.usesRemaining--;
+
+        if(powerup.usesRemaining <= 0)
+        {
+            isEmpty = true;
+            powerup = null;
+        }
     }
 
     public bool CanUsePowerup()
     {
-        return !isEmpty;
+        return !isEmpty && powerup.usesRemaining > 0;
     }
 }

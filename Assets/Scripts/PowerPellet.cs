@@ -8,6 +8,7 @@ public class PowerPellet : Pellet
     public float duration { get; private set; }
     public float power { get; private set; }
     public Type type;
+    public int usesRemaining;
 
     public enum Type
     {
@@ -15,10 +16,11 @@ public class PowerPellet : Pellet
         refill,
         projectile,
         freeze,
-        speed
+        speed,
+        nothing
     }
 
-    public void selectType()
+    public void SelectType()
     {
         Array values = Enum.GetValues(typeof(Type));
         type = (Type)values.GetValue(Random.Range(0, values.Length));
@@ -36,9 +38,10 @@ public class PowerPellet : Pellet
             if (other.gameObject.layer == LayerMask.NameToLayer("Pacman"))
             {
                 Eat(other.gameObject.GetComponent<Pacman>());
-                selectType();
+                SelectType();
                 UpdateDuration();
                 UpdatePower();
+                UpdateUses();
             }
         }
         else
@@ -85,6 +88,18 @@ public class PowerPellet : Pellet
         else if (this.type == Type.star || this.type == Type.refill)
         {
             power = 0f;
+        }
+    }
+
+    private void UpdateUses()
+    {
+        if (this.type == Type.projectile)
+        {
+            usesRemaining = 3;
+        }
+        else if (this.type == Type.freeze || this.type == Type.speed || this.type == Type.star || this.type == Type.refill)
+        {
+            usesRemaining = 1;
         }
     }
 }
