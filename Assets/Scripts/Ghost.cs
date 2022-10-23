@@ -88,4 +88,15 @@ public class Ghost : MonoBehaviour
 
         mainTarget = targets[index];
     }
+
+    public void ChangeTarget(Pacman player)
+    {
+        if(player == targets[0])
+        {
+            mainTarget = targets[1];
+        } else if(player == targets[1])
+        {
+            mainTarget = targets[0];
+        }
+    }
 }
