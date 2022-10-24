@@ -12,7 +12,7 @@ public class Backpack : MonoBehaviour
     private void Start()
     {
         isEmpty = true;
-        powerup = null;
+        powerup = new PowerPellet();
     }
 
     public void PickupPowerup(PowerPellet powerup)
@@ -26,7 +26,7 @@ public class Backpack : MonoBehaviour
         // Use powerup in backpack
         Debug.Log(player + " has used a " + this.powerup.type + " powerup!");
 
-        if (this.powerup.type == PowerPellet.Type.star)
+        if (powerup.type == PowerPellet.Type.star)
         {
             FindObjectOfType<GameManager>().ActivateStarPowerup(powerup, player);
         }
@@ -56,7 +56,12 @@ public class Backpack : MonoBehaviour
         if(powerup.usesRemaining <= 0)
         {
             isEmpty = true;
-            powerup = null;
+            powerup.type = PowerPellet.Type.nothing;
+
+            foreach(BackpackRenderer rend in FindObjectsOfType<BackpackRenderer>())
+            {
+                rend.ResetSprite();
+            }
         }
     }
 

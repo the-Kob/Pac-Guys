@@ -17,17 +17,14 @@ public class BackpackRenderer : MonoBehaviour
         rend = GetComponent<SpriteRenderer>();
         rend.size = new Vector2(3, 3);
         powerup = player.GetComponent<Pacman>().backpack.powerup;
+        ResetSprite();
     }
 
     private void Update()
     {
         powerup = player.GetComponent<Pacman>().backpack.powerup;
 
-        if (powerup == null || powerup.type == PowerPellet.Type.nothing)
-        {
-            return;
-        } 
-        else if(powerup.type == PowerPellet.Type.star)
+        if(powerup.type == PowerPellet.Type.star)
         {
             Debug.Log("sprite star");
             rend.sprite = sprites[0];
@@ -49,12 +46,13 @@ public class BackpackRenderer : MonoBehaviour
         }
         else if(powerup.type == PowerPellet.Type.speed)
         {
-            //rend.sprite = sprites[4];
+            Debug.Log("sprite speed");
+            rend.sprite = sprites[4];
         }
     }
 
     public void ResetSprite()
     {
-
+        rend.sprite = sprites[5];
     }
 }

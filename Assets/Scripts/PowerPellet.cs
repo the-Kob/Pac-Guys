@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class PowerPellet : Pellet
@@ -18,6 +19,14 @@ public class PowerPellet : Pellet
         freeze,
         speed,
         nothing
+    }
+
+    public PowerPellet()
+    {
+        type = Type.nothing;
+        UpdateDuration();
+        UpdatePower();
+        UpdateUses();
     }
 
     public void SelectType()
@@ -62,7 +71,7 @@ public class PowerPellet : Pellet
         {
             duration = 3.0f;
         }
-        else if (this.type == Type.projectile || this.type == Type.refill)
+        else if (this.type == Type.projectile || this.type == Type.refill || this.type == Type.nothing)
         {
             duration = 0f;
         }
@@ -85,7 +94,7 @@ public class PowerPellet : Pellet
             // Speed multiplier
             power = 1.5f;
         }
-        else if (this.type == Type.star || this.type == Type.refill)
+        else if (this.type == Type.star || this.type == Type.refill || this.type == Type.nothing)
         {
             power = 0f;
         }
@@ -100,6 +109,10 @@ public class PowerPellet : Pellet
         else if (this.type == Type.freeze || this.type == Type.speed || this.type == Type.star || this.type == Type.refill)
         {
             usesRemaining = 1;
+        } 
+        else if(this.type == Type.nothing)
+        {
+            usesRemaining = 0;
         }
     }
 }
