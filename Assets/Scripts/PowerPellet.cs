@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
@@ -31,11 +32,12 @@ public class PowerPellet : Pellet
 
     public void SelectType()
     {
-        Array values = Enum.GetValues(typeof(Type));
-        while(type == Type.nothing)
-        {
-            type = (Type)values.GetValue(Random.Range(0, values.Length));
-        } 
+        List<Type> values = Enum.GetValues(typeof(Type)).Cast<Type>().ToList();
+        values.Remove(Type.nothing);
+ 
+        type = values[Random.Range(0, values.Count)];
+
+        Debug.Log(type);
     }
 
     protected override void Eat(Pacman player)

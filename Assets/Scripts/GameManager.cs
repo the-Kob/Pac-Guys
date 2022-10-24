@@ -260,7 +260,7 @@ public class GameManager : MonoBehaviour
                 Invoke("RespawnPlayer1", respawnTime);
             }
 
-            ChangeTargetOnPacmanDeath(player1);
+            ScatterOnPacmanDeath(player1);
         } else
         {
             if(!player2.invulnerable)
@@ -285,7 +285,7 @@ public class GameManager : MonoBehaviour
                 Invoke("RespawnPlayer2", respawnTime);
             }
 
-            ChangeTargetOnPacmanDeath(player2);
+            ScatterOnPacmanDeath(player2);
         }
     }
 
@@ -413,11 +413,13 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    private void ChangeTargetOnPacmanDeath(Pacman deadPlayer)
+    private void ScatterOnPacmanDeath(Pacman deadPlayer)
     {
+        int duration = 2;
+
         for (int i = 0; i < ghosts.Length; i++)
         {
-            ghosts[i].ChangeTarget(deadPlayer);
+            ghosts[i].Scatter(deadPlayer, duration, duration);
         }
     }
 }
