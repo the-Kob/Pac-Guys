@@ -388,6 +388,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ActivateProjectilePowerup(PowerPellet powerup, Pacman player)
+    {
+        if (player1 == player)
+        {
+            player1.ProjectileTime(powerup.duration);
+        }
+        else if (player2 == player)
+        {
+            player2.ProjectileTime(powerup.duration);
+        }
+    }
+
     private void UpdateGhostsTarget()
     {
         for (int i = 0; i < ghosts.Length; i++)

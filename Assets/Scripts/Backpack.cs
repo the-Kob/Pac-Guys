@@ -48,8 +48,7 @@ public class Backpack : MonoBehaviour
         else if (powerup.type == PowerPellet.Type.projectile)
         {
             // Shoot projectile untils it hits a wall/enemy/other player
-
-            // TODO
+            FindObjectOfType<GameManager>().ActivateProjectilePowerup(powerup, player);
         }
 
         powerup.usesRemaining--;

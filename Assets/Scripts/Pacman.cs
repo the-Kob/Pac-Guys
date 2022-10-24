@@ -15,6 +15,8 @@ public class Pacman : MonoBehaviour
     public Vector3 startingPosition { get; set; }
     public int score { get; set; }
     public float invulnerabilityTime = 1.5f;
+    public Projectile ProjectilePrefab;
+    public Transform LaunchOffset;
 
     [HideInInspector]
     public bool invulnerable = false;
@@ -172,5 +174,15 @@ public class Pacman : MonoBehaviour
         movement.speedMultiplier = speedMultiplier;
 
         Invoke("ResetMovementSpeed", duration);
+    }
+
+    private void ShootProjectile()
+    {
+        Instantiate(ProjectilePrefab, LaunchOffset.position, transform.rotation);
+    }
+
+    public void ProjectileTime(float duration)
+    {
+        Invoke("ShootProjectile", duration);
     }
 }
