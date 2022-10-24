@@ -314,11 +314,11 @@ public class GameManager : MonoBehaviour
 
     public void PowerPelletEaten(PowerPellet pellet, Pacman player)
     {
-        if (player = player1)
+        if (player == player1)
         {
             player1.backpack.PickupPowerup(pellet);
         }
-        else if (player = player2)
+        else if (player == player2)
         {
             player2.backpack.PickupPowerup(pellet);
         }
