@@ -48,12 +48,10 @@ public class BackpackRenderer : MonoBehaviour
         } 
         else if(powerup.type == PowerPellet.Type.refill)
         {
-            Debug.Log("sprite refill");
             rend.sprite = sprites[5];
         }
         else if(powerup.type == PowerPellet.Type.speed)
         {
-            Debug.Log("sprite speed");
             rend.sprite = sprites[6];
         }
     }

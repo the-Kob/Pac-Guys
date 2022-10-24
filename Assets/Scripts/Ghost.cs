@@ -50,6 +50,24 @@ public class Ghost : MonoBehaviour
         RandomlyChangeTarget();
     }
 
+    public void Scatter(Pacman deadPlayer, int duration, int changeDuration)
+    {
+        if(mainTarget == deadPlayer)
+        {
+            frightened.Disable();
+            chase.Disable();
+            scatter.Enable();
+            ChangeScatterDurationTemporarily(duration, changeDuration);
+
+            if (!home.enabled)
+            {
+                home.Disable();
+            }
+
+            ChangeTarget(deadPlayer);
+        }
+    }
+
     public void SetPosition(Vector3 position)
     {
         // Keep the z-position the same since it determines draw depth
@@ -68,6 +86,33 @@ public class Ghost : MonoBehaviour
                 FindObjectOfType<GameManager>().PacmanEaten(false, isP1);
             }
         }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman"))
+        {
+            if (frightened.enabled)
+            {
+                FindObjectOfType<GameManager>().GhostEaten(this, collision.gameObject.GetComponent<Pacman>());
+            }
+            else
+            {
+                bool isP1 = collision.gameObject.GetComponent<Pacman>().isP1;
+                FindObjectOfType<GameManager>().PacmanEaten(false, isP1);
+            }
+        }
+    }
+
+    private void ResetScatterDuration() {
+        scatter.duration = 7;
+    }
+
+    private void ChangeScatterDurationTemporarily(int duration, int changeDuration)
+    {
+        scatter.duration = duration;
+
+        Invoke("ResetScatterDuration", changeDuration);
     }
 
     private void ResetMovementSpeed()
