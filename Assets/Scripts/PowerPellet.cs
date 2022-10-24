@@ -6,10 +6,10 @@ using Random = UnityEngine.Random;
 
 public class PowerPellet : Pellet
 {
-    public float duration { get; private set; }
-    public float power { get; private set; }
-    public Type type;
-    public int usesRemaining;
+    public float duration { get; private set; } = 0;
+    public float power { get; private set; } = 0;
+    public Type type = Type.nothing;
+    public int usesRemaining = 0;
 
     public enum Type
     {
@@ -32,7 +32,10 @@ public class PowerPellet : Pellet
     public void SelectType()
     {
         Array values = Enum.GetValues(typeof(Type));
-        type = (Type)values.GetValue(Random.Range(0, values.Length));
+        while(type == Type.nothing)
+        {
+            type = (Type)values.GetValue(Random.Range(0, values.Length));
+        } 
     }
 
     protected override void Eat(Pacman player)
@@ -42,6 +45,7 @@ public class PowerPellet : Pellet
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log(this.gameObject.GetComponent<SpriteRenderer>().enabled);
         if (this.gameObject.GetComponent<SpriteRenderer>().enabled)
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Pacman"))

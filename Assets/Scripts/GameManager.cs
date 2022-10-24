@@ -314,11 +314,11 @@ public class GameManager : MonoBehaviour
 
     public void PowerPelletEaten(PowerPellet pellet, Pacman player)
     {
-        if (player1 == player)
+        if (player = player1)
         {
             player1.backpack.PickupPowerup(pellet);
         }
-        else if (player2 == player)
+        else if (player = player2)
         {
             player2.backpack.PickupPowerup(pellet);
         }
@@ -338,11 +338,11 @@ public class GameManager : MonoBehaviour
             ghosts[i].frightened.Enable(powerup.duration);
         }
 
-        if (player1 == player)
+        if (player == player1)
         {
             player2.EnableVulnerable(powerup.duration);
         }
-        else if (player2 == player)
+        else if (player == player2)
         {
             player1.EnableVulnerable(powerup.duration);
         }

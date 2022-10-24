@@ -26,33 +26,40 @@ public class BackpackRenderer : MonoBehaviour
 
         if(powerup.type == PowerPellet.Type.star)
         {
-            Debug.Log("sprite star");
             rend.sprite = sprites[0];
         } 
         else if(powerup.type == PowerPellet.Type.freeze)
         {
-            Debug.Log("sprite freeze");
             rend.sprite = sprites[1];
         }
         else if (powerup.type == PowerPellet.Type.projectile)
         {
-            Debug.Log("sprite proj");
-            rend.sprite = sprites[2];
+            if(powerup.usesRemaining == 3)
+            {
+                rend.sprite = sprites[2];
+            } else if(powerup.usesRemaining == 2)
+            {
+                rend.sprite = sprites[3];
+            } else if(powerup.usesRemaining == 1)
+            {
+                rend.sprite = sprites[4];
+            }
+            
         } 
         else if(powerup.type == PowerPellet.Type.refill)
         {
             Debug.Log("sprite refill");
-            rend.sprite = sprites[3];
+            rend.sprite = sprites[5];
         }
         else if(powerup.type == PowerPellet.Type.speed)
         {
             Debug.Log("sprite speed");
-            rend.sprite = sprites[4];
+            rend.sprite = sprites[6];
         }
     }
 
     public void ResetSprite()
     {
-        rend.sprite = sprites[5];
+        rend.sprite = sprites[7];
     }
 }
