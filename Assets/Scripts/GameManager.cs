@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     const float MAX_TIME = 120f;
     const int MAX_SCORE = 3;
 
+    float countdownTime = 4f;
+
     public Ghost[] ghosts;
     [Range(5, 30)] // Between 5 and 30 seconds
     public int ghostChangeTargetInterval;
@@ -28,9 +30,11 @@ public class GameManager : MonoBehaviour
     public Text gameOverText;
     public Text scoreText;
     public Text timerText;
+    public Text countdownText;
 
     float timer;
     bool roundOngoing;
+    bool gameOngoing = false;
 
     public enum RoundState
     {
@@ -95,38 +99,68 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         score = new GlobalScore();
-        NewGame();
+
+        gameOverText.enabled = false;
+        roundOverText.enabled = false;
+
+        for (int i = 0; i < ghosts.Length; i++)
+        {
+            ghosts[i].gameObject.SetActive(false);
+        }
+
+        player1.gameObject.SetActive(false);
+        player2.gameObject.SetActive(false);
+
+        StartCoroutine(CountdownTimer());
+        Invoke("NewGame", 4f);
     }
 
     private void Update()
-    {
-        UpdateTimer();
-
-        if(timer % ghostChangeTargetInterval == 0)
+    { 
+        if(gameOngoing)
         {
-            UpdateGhostsTarget();
-        }
+            UpdateTimer();
 
-        // Check if max global score has been reached by a player
-        if ((score.p1Score >= MAX_SCORE || score.p2Score >= MAX_SCORE) && Input.anyKeyDown) {
-            // In the future can take the players to a menu screen  
-            NewGame();
-        }
+            if (timer % ghostChangeTargetInterval == 0)
+            {
+                UpdateGhostsTarget();
+            }
+
+            // Check if max global score has been reached by a player
+            if ((score.p1Score >= MAX_SCORE || score.p2Score >= MAX_SCORE) && Input.anyKeyDown)
+            {
+                // In the future can take the players to a menu screen  
+                StartCoroutine(CountdownTimer());
+                Invoke("NewGame", 4f);
+            }
+        } 
     }
 
     private void NewGame()
     {
         gameOverText.enabled = false;
+        gameOngoing = true;
+
+        for (int i = 0; i < ghosts.Length; i++)
+        {
+            ghosts[i].gameObject.SetActive(true);
+        }
+
+        player1.gameObject.SetActive(true);
+        player2.gameObject.SetActive(true);
+
         NewRound();
     }
 
     private void NewRound()
     {
         roundOngoing = true;
+
         // Reset timer
         timer = 0f;
 
         roundOverText.enabled = false;
+        countdownText.enabled = false;
 
         RefillBoard();
 
@@ -215,7 +249,8 @@ public class GameManager : MonoBehaviour
                 RoundOver();
                 if(score.p1Score < 3 && score.p2Score < 3)
                 {
-                    Invoke("NewRound", 5f);
+                    StartCoroutine(CountdownTimer());
+                    Invoke("NewRound", 4f);
                 } else
                 {
                     GameOver();
@@ -248,7 +283,7 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     // Ghosts subtract their points if they kill you
-                    int result = player1.score - 200;
+                    int result = player1.score - 50;
                     if (result < 0)
                     {
                         result = 0;
@@ -273,7 +308,7 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     // Ghosts subtract their points if they kill you
-                    int result = player2.score - 200;
+                    int result = player2.score - 50;
                     if (result < 0)
                     {
                         result = 0;
@@ -420,6 +455,24 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < ghosts.Length; i++)
         {
             ghosts[i].Scatter(deadPlayer, duration, duration);
+        }
+    }
+
+    private IEnumerator CountdownTimer()
+    {
+        {
+            countdownTime = 4f;
+            countdownText.enabled = true;
+            countdownText.text = countdownTime.ToString();
+
+            while (countdownTime > 0)
+            {
+                countdownTime -= 1;
+                countdownText.text = countdownTime.ToString();
+                yield return new WaitForSeconds(1f);
+            }
+
+            countdownText.enabled = false;
         }
     }
 }

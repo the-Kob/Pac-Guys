@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 
 public class BackpackRenderer : MonoBehaviour
@@ -24,36 +25,41 @@ public class BackpackRenderer : MonoBehaviour
     {
         powerup = player.GetComponent<Pacman>().backpack.powerup;
 
-        if(powerup.type == PowerPellet.Type.star)
+        if(powerup != null)
         {
-            rend.sprite = sprites[0];
-        } 
-        else if(powerup.type == PowerPellet.Type.freeze)
-        {
-            rend.sprite = sprites[1];
-        }
-        else if (powerup.type == PowerPellet.Type.projectile)
-        {
-            if(powerup.usesRemaining == 3)
+            if (powerup.type == PowerPellet.Type.star)
             {
-                rend.sprite = sprites[2];
-            } else if(powerup.usesRemaining == 2)
-            {
-                rend.sprite = sprites[3];
-            } else if(powerup.usesRemaining == 1)
-            {
-                rend.sprite = sprites[4];
+                rend.sprite = sprites[0];
             }
-            
+            else if (powerup.type == PowerPellet.Type.freeze)
+            {
+                rend.sprite = sprites[1];
+            }
+            else if (powerup.type == PowerPellet.Type.projectile)
+            {
+                if (powerup.usesRemaining == 3)
+                {
+                    rend.sprite = sprites[2];
+                }
+                else if (powerup.usesRemaining == 2)
+                {
+                    rend.sprite = sprites[3];
+                }
+                else if (powerup.usesRemaining == 1)
+                {
+                    rend.sprite = sprites[4];
+                }
+
+            }
+            else if (powerup.type == PowerPellet.Type.refill)
+            {
+                rend.sprite = sprites[5];
+            }
+            else if (powerup.type == PowerPellet.Type.speed)
+            {
+                rend.sprite = sprites[6];
+            }
         } 
-        else if(powerup.type == PowerPellet.Type.refill)
-        {
-            rend.sprite = sprites[5];
-        }
-        else if(powerup.type == PowerPellet.Type.speed)
-        {
-            rend.sprite = sprites[6];
-        }
     }
 
     public void ResetSprite()

@@ -23,7 +23,7 @@ public class Pacman : MonoBehaviour
     [HideInInspector]
     public bool vulnerable = false;
     [HideInInspector]
-    public int points = 500;
+    public int points = 100;
     
     private void Awake()
     {
