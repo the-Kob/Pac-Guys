@@ -2328,7 +2328,7 @@ PrefabInstance:
     - target: {fileID: 441729529927203796, guid: cdeeebfd240c5e740a292e8d28256681, type: 3}
       propertyPath: sprites.Array.data[7]
       value: 
-      objectReference: {fileID: 21300000, guid: 8c3087f14f6c62b4e80b25df0276968e, type: 3}
+      objectReference: {fileID: 21300000, guid: 682bc5266e534cb4db66be3639784c8c, type: 3}
     - target: {fileID: 441729529927203798, guid: cdeeebfd240c5e740a292e8d28256681, type: 3}
       propertyPath: m_FlipX
       value: 0
@@ -13215,7 +13215,7 @@ PrefabInstance:
     - target: {fileID: 441729529927203796, guid: cdeeebfd240c5e740a292e8d28256681, type: 3}
       propertyPath: sprites.Array.data[7]
       value: 
-      objectReference: {fileID: 21300000, guid: 8c3087f14f6c62b4e80b25df0276968e, type: 3}
+      objectReference: {fileID: 21300000, guid: 682bc5266e534cb4db66be3639784c8c, type: 3}
     - target: {fileID: 441729529927203798, guid: cdeeebfd240c5e740a292e8d28256681, type: 3}
       propertyPath: m_Size.x
       value: 2
