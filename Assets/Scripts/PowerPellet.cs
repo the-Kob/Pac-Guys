@@ -47,7 +47,6 @@ public class PowerPellet : Pellet
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log(this.gameObject.GetComponent<SpriteRenderer>().enabled);
         if (this.gameObject.GetComponent<SpriteRenderer>().enabled)
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Pacman"))

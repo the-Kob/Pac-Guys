@@ -14,7 +14,7 @@ public class Ghost : MonoBehaviour
     public List<Transform> targets;
     [HideInInspector]
     public Transform mainTarget;
-    public int points = 200;
+    public int points = 50;
 
     private void Awake()
     {
