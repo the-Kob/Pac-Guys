@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     public Text timerText;
     public Text countdownText;
 
+    public Image timerBar;
+
     float timer;
     bool roundOngoing;
     bool gameOngoing = false;
@@ -259,6 +261,7 @@ public class GameManager : MonoBehaviour
         } else
         {
             timer += Time.deltaTime;
+            timerBar.fillAmount = 1.0f * timer / MAX_TIME;
         }
 
         timerText.text = ((int)timer).ToString();
