@@ -15,8 +15,9 @@ public class Pacman : MonoBehaviour
     public Vector3 startingPosition { get; set; }
     public int score { get; set; }
     public float invulnerabilityTime = 1.5f;
-    public Projectile ProjectilePrefab;
-    public Transform LaunchOffset;
+    public GameObject projectilePrefab;
+    public Transform launchOffset;
+    public float force = 20.0f;
 
     [HideInInspector]
     public bool invulnerable = false;
@@ -178,11 +179,14 @@ public class Pacman : MonoBehaviour
 
     private void ShootProjectile()
     {
-        Instantiate(ProjectilePrefab, LaunchOffset.position, transform.rotation);
+        GameObject fireball = Instantiate(projectilePrefab, launchOffset.position, transform.rotation);
+        Rigidbody2D rb = fireball.GetComponent<Rigidbody2D>();
+        rb.AddForce(launchOffset.right * force, ForceMode2D.Impulse);
     }
 
-    public void ProjectileTime(float duration)
+    public void ProjectileTime(float newForce, float duration)
     {
+        force = newForce;
         Invoke("ShootProjectile", duration);
     }
 }

@@ -427,11 +427,11 @@ public class GameManager : MonoBehaviour
     {
         if (player1 == player)
         {
-            player1.ProjectileTime(powerup.duration);
+            player1.ProjectileTime(powerup.power, powerup.duration);
         }
         else if (player2 == player)
         {
-            player2.ProjectileTime(powerup.duration);
+            player2.ProjectileTime(powerup.power, powerup.duration);
         }
     }
 
