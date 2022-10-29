@@ -86,8 +86,8 @@ public class PowerPellet : Pellet
     {
         if (this.type == Type.projectile)
         {
-            // Projectile speed - value TBD
-            power = 2.0f;
+            // Projectile force
+            power = 20.0f;
         }
         else if (this.type == Type.freeze)
         {
