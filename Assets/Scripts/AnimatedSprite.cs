@@ -5,13 +5,17 @@ public class AnimatedSprite : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer { get; private set; }
     public Sprite[] sprites = new Sprite[0];
+    public Sprite[] vulnerableSprites = new Sprite[0];
     public float animationTime = 0.25f;
     public int animationFrame { get; private set; }
     public bool loop = true;
 
+    private Pacman player;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        player = GetComponent<Pacman>();
     }
 
     private void Start()
@@ -32,7 +36,13 @@ public class AnimatedSprite : MonoBehaviour
         }
 
         if (animationFrame >= 0 && animationFrame < sprites.Length) {
-            spriteRenderer.sprite = sprites[animationFrame];
+            if (player != null && player.vulnerable)
+            {
+                spriteRenderer.sprite = vulnerableSprites[animationFrame];
+            } else
+            {
+                spriteRenderer.sprite = sprites[animationFrame];
+            }
         }
     }
 
