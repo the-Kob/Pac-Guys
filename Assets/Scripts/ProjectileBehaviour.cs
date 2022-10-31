@@ -4,8 +4,22 @@ using UnityEngine;
 
 public class ProjectileBehaviour : MonoBehaviour
 {
+    public float timeUntilDestroy;
+
     [HideInInspector]
     public Pacman owner { get; set; }
+
+    private float timer = 0f;
+
+    private void Update()
+    {
+        timer += Time.deltaTime;
+
+        if(timer >= timeUntilDestroy)
+        {
+            Destroy(this.gameObject);        
+        }
+    }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -27,25 +41,7 @@ public class ProjectileBehaviour : MonoBehaviour
                 FindObjectOfType<GameManager>().PacmanEaten(false, isP1, true);
 
                 Destroy(gameObject);
-            } else
-            {
-                Debug.Log("Hit owner");
             }
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        float timer = 0;
-
-        while(timer < 5)
-        {
-            timer += Time.deltaTime;
-        }
-
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle") && timer >= 5)
-        {
-            Destroy(gameObject);
         }
     }
 }
