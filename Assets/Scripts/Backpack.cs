@@ -24,7 +24,6 @@ public class Backpack : MonoBehaviour
     public void UsePowerup(Pacman player)
     {
         // Use powerup in backpack
-        Debug.Log(player + " has used a " + this.powerup.type + " powerup!");
 
         if (powerup.type == PowerPellet.Type.star)
         {

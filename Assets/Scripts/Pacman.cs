@@ -10,14 +10,15 @@ public class Pacman : MonoBehaviour
     public new Collider2D collider { get; private set; }
     public Movement movement { get; private set; }
     public Backpack backpack { get; private set; }
+
     public Text scoreText;
     public bool isP1;
     public Vector3 startingPosition { get; set; }
     public int score { get; set; }
     public float invulnerabilityTime = 1.5f;
-    public GameObject projectilePrefab;
+
     public Transform launchOffset;
-    public float force = 20.0f;
+    public GameObject projectilePrefab;
 
     [HideInInspector]
     public bool invulnerable = false;
@@ -136,7 +137,19 @@ public class Pacman : MonoBehaviour
             Pacman otherPlayer = collision.gameObject.GetComponent<Pacman>();
             if (otherPlayer.vulnerable)
             {
-                FindObjectOfType<GameManager>().PacmanEaten(true, otherPlayer.isP1);
+                FindObjectOfType<GameManager>().PacmanEaten(true, otherPlayer.isP1, false);
+            }
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Pacman"))
+        {
+            Pacman otherPlayer = collision.gameObject.GetComponent<Pacman>();
+            if (otherPlayer.vulnerable)
+            {
+                FindObjectOfType<GameManager>().PacmanEaten(true, otherPlayer.isP1, false);
             }
         }
     }
@@ -177,16 +190,14 @@ public class Pacman : MonoBehaviour
         Invoke("ResetMovementSpeed", duration);
     }
 
-    private void ShootProjectile()
+    public void ShootProjectile(float power)
     {
         GameObject fireball = Instantiate(projectilePrefab, launchOffset.position, transform.rotation);
-        Rigidbody2D rb = fireball.GetComponent<Rigidbody2D>();
-        rb.AddForce(launchOffset.right * force, ForceMode2D.Impulse);
-    }
 
-    public void ProjectileTime(float newForce, float duration)
-    {
-        force = newForce;
-        Invoke("ShootProjectile", duration);
+        // Set the projectile's owner
+        fireball.GetComponent<ProjectileBehaviour>().owner = this;
+
+        // Apply a force to the projectile (powerup power works as the force)
+        fireball.GetComponent<Rigidbody2D>().AddForce(launchOffset.right * power, ForceMode2D.Impulse);
     }
 }

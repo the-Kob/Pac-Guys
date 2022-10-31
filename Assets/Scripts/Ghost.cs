@@ -52,7 +52,7 @@ public class Ghost : MonoBehaviour
 
     public void Scatter(Pacman deadPlayer, int duration, int changeDuration)
     {
-        if(mainTarget == deadPlayer)
+        if(mainTarget == deadPlayer.transform)
         {
             frightened.Disable();
             chase.Disable();
@@ -83,8 +83,12 @@ public class Ghost : MonoBehaviour
                 FindObjectOfType<GameManager>().GhostEaten(this, collision.gameObject.GetComponent<Pacman>());
             } else {
                 bool isP1 = collision.gameObject.GetComponent<Pacman>().isP1;
-                FindObjectOfType<GameManager>().PacmanEaten(false, isP1);
+                FindObjectOfType<GameManager>().PacmanEaten(false, isP1, false);
             }
+        }
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Projectile"))
+        {
+            frightened.Eaten();
         }
     }
 
@@ -99,8 +103,12 @@ public class Ghost : MonoBehaviour
             else
             {
                 bool isP1 = collision.gameObject.GetComponent<Pacman>().isP1;
-                FindObjectOfType<GameManager>().PacmanEaten(false, isP1);
+                FindObjectOfType<GameManager>().PacmanEaten(false, isP1, false);
             }
+        }
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Projectile"))
+        {
+            frightened.Eaten();
         }
     }
 
