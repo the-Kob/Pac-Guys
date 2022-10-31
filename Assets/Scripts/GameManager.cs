@@ -350,6 +350,16 @@ public class GameManager : MonoBehaviour
         pellet.gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }
 
+    public void GhostHit(Ghost ghostHit)
+    {
+        
+    }
+
+    public void PacmanHit(Pacman pacmanHit)
+    {
+
+    }
+
     public void PowerPelletEaten(PowerPellet pellet, Pacman player)
     {
         if (player == player1)
