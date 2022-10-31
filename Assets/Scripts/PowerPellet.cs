@@ -36,8 +36,6 @@ public class PowerPellet : Pellet
         values.Remove(Type.nothing);
  
         type = values[Random.Range(0, values.Count)];
-
-        Debug.Log(type);
     }
 
     protected override void Eat(Pacman player)
@@ -87,7 +85,7 @@ public class PowerPellet : Pellet
         if (this.type == Type.projectile)
         {
             // Projectile force
-            power = 20.0f;
+            power = 35.0f;
         }
         else if (this.type == Type.freeze)
         {
