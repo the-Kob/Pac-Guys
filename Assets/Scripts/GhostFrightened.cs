@@ -31,7 +31,7 @@ public class GhostFrightened : GhostBehavior
         white.enabled = false;
     }
 
-    private void Eaten()
+    public void Eaten()
     {
         eaten = true;
         ghost.SetPosition(ghost.home.inside.position);
@@ -41,6 +41,8 @@ public class GhostFrightened : GhostBehavior
         eyes.enabled = true;
         blue.enabled = false;
         white.enabled = false;
+
+        Invoke("Disable", duration);
     }
 
     private void Flash()

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.XR;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -272,27 +273,44 @@ public class GameManager : MonoBehaviour
         scoreText.text = score.p1Score.ToString() + " / " + score.p2Score.ToString();
     }
 
-    public void PacmanEaten(bool eatenByPlayer, bool isP1)
+    public void PacmanEaten(bool eatenByPlayer, bool isP1, bool projectile)
     {
         if (isP1)
         {
             if(!player1.invulnerable)
             {
-                if (eatenByPlayer)
+                if(!projectile)
                 {
-                    int result = player2.score + player1.points;
-                    player2.SetScore(result);
-                }
-                else
+                    if (eatenByPlayer)
+                    {
+                        int result = player2.score + player1.points;
+                        player2.SetScore(result);
+                    }
+                    else
+                    {
+                        // Ghosts subtract their points if they kill you
+                        int result = player1.score - 50;
+                        if (result < 0)
+                        {
+                            result = 0;
+                        }
+                        player1.SetScore(result);
+                    }
+                } else
                 {
-                    // Ghosts subtract their points if they kill you
-                    int result = player1.score - 50;
+                    // Subtract points from the player hit
+                    int result = player1.score - player2.points;
                     if (result < 0)
                     {
                         result = 0;
                     }
                     player1.SetScore(result);
+
+                    // Add points to the owner of the projectile
+                    result = player2.score + player1.points;
+                    player2.SetScore(result);
                 }
+                
 
                 player1.DeathSequence();
                 Invoke("RespawnPlayer1", respawnTime);
@@ -303,21 +321,39 @@ public class GameManager : MonoBehaviour
         {
             if(!player2.invulnerable)
             {
-                if (eatenByPlayer)
+                if(!projectile)
                 {
-                    int result = player1.score + player2.points;
-                    player1.SetScore(result);
+                    if (eatenByPlayer)
+                    {
+                        int result = player1.score + player2.points;
+                        player1.SetScore(result);
+                    }
+                    else
+                    {
+                        // Ghosts subtract their points if they kill you
+                        int result = player2.score - 50;
+                        if (result < 0)
+                        {
+                            result = 0;
+                        }
+                        player2.SetScore(result);
+                    }
                 }
                 else
                 {
-                    // Ghosts subtract their points if they kill you
-                    int result = player2.score - 50;
+                    // Subtract points from the player hit
+                    int result = player2.score - player1.points;
                     if (result < 0)
                     {
                         result = 0;
                     }
                     player2.SetScore(result);
+
+                    // Add points to the owner of the projectile
+                    result = player1.score + player2.points;
+                    player1.SetScore(result);
                 }
+                
 
                 player2.DeathSequence();
                 Invoke("RespawnPlayer2", respawnTime);
@@ -430,11 +466,11 @@ public class GameManager : MonoBehaviour
     {
         if (player1 == player)
         {
-            player1.ProjectileTime(powerup.power, powerup.duration);
+            player1.ShootProjectile(powerup.power);
         }
         else if (player2 == player)
         {
-            player2.ProjectileTime(powerup.power, powerup.duration);
+            player2.ShootProjectile(powerup.power);
         }
     }
 
