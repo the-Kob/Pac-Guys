@@ -12,6 +12,17 @@ public class PlayMenu : MonoBehaviour
 
     public void PlaySpooky()
     {
+        SceneManager.LoadScene(3);
+    }
+
+    public void PlayGDT()
+    {
         SceneManager.LoadScene(2);
     }
+
+    public void PlayWinter()
+    {
+        SceneManager.LoadScene(4);
+    }
+
 }
