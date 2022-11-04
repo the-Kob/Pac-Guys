@@ -15059,6 +15059,7 @@ GameObject:
   - component: {fileID: 1056667053}
   - component: {fileID: 1056667055}
   - component: {fileID: 1056667054}
+  - component: {fileID: 1056667056}
   m_Layer: 5
   m_Name: CountdownText
   m_TagString: Untagged
@@ -15128,6 +15129,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1056667052}
   m_CullTransparentMesh: 1
+--- !u!114 &1056667056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056667052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0.4876957, b: 1, a: 0.5}
+  m_EffectDistance: {x: 5, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1064051191
 GameObject:
   m_ObjectHideFlags: 0
@@ -15211,6 +15227,7 @@ GameObject:
   - component: {fileID: 1133529213}
   - component: {fileID: 1133529215}
   - component: {fileID: 1133529214}
+  - component: {fileID: 1133529216}
   m_Layer: 5
   m_Name: GameOverText
   m_TagString: Untagged
@@ -15280,6 +15297,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1133529212}
   m_CullTransparentMesh: 1
+--- !u!114 &1133529216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133529212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0.4876957, b: 1, a: 0.5}
+  m_EffectDistance: {x: 5, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!213 &1134066261
 Sprite:
   m_ObjectHideFlags: 0
@@ -32864,6 +32896,7 @@ GameObject:
   - component: {fileID: 2106437196}
   - component: {fileID: 2106437198}
   - component: {fileID: 2106437197}
+  - component: {fileID: 2106437199}
   m_Layer: 5
   m_Name: RoundOverText
   m_TagString: Untagged
@@ -32933,6 +32966,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2106437195}
   m_CullTransparentMesh: 1
+--- !u!114 &2106437199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2106437195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0.4876957, b: 1, a: 0.5}
+  m_EffectDistance: {x: 5, y: -5}
+  m_UseGraphicAlpha: 1
 --- !u!114 &2107185094 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5660416300114475816, guid: 0d1f951e4ac24fe478d688dbf86a5c39, type: 3}
