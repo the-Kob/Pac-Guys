@@ -127,7 +127,7 @@ public class Pacman : MonoBehaviour
     public void SetScore(int score)
     {
         this.score = score;
-        scoreText.text = score.ToString().PadLeft(2, '0');
+        //scoreText.text = score.ToString().PadLeft(2, '0');
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

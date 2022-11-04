@@ -6,21 +6,23 @@ public class BoxBehaviour : MonoBehaviour
 {
     public Sprite off;
     public Sprite on;
-    private SpriteRenderer renderer;
+    private SpriteRenderer rend;
 
-    void Start()
+    void Awake()
     {
-        renderer = GetComponent<SpriteRenderer>();
-        renderer.sprite = off;
+        rend = GetComponent<SpriteRenderer>();
+        rend.sprite = off;
     }
 
     public void On()
     {
-        renderer.sprite = on;
+        rend.sprite = on;
     }
 
     public void Off()
     {
-        renderer.sprite = off;
+        Debug.Log(rend);
+        Debug.Log(rend.sprite);
+        rend.sprite = off;
     }
 }
