@@ -14940,7 +14940,7 @@ PrefabInstance:
     - target: {fileID: 6038318316045854514, guid: b6894cca0173e8041bba0e4a8be5fde1, type: 3}
       propertyPath: scoreText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2025566471}
     - target: {fileID: 6038318316045854514, guid: b6894cca0173e8041bba0e4a8be5fde1, type: 3}
       propertyPath: launchOffset
       value: 
@@ -15711,7 +15711,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 682bc5266e534cb4db66be3639784c8c, type: 3}
     - target: {fileID: 441729529927203798, guid: cdeeebfd240c5e740a292e8d28256681, type: 3}
       propertyPath: m_FlipX
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 441729529927203798, guid: cdeeebfd240c5e740a292e8d28256681, type: 3}
       propertyPath: m_Size.x
@@ -33145,7 +33145,7 @@ PrefabInstance:
     - target: {fileID: 6038318316045854514, guid: b6894cca0173e8041bba0e4a8be5fde1, type: 3}
       propertyPath: scoreText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1539801764}
     - target: {fileID: 6038318316045854514, guid: b6894cca0173e8041bba0e4a8be5fde1, type: 3}
       propertyPath: launchOffset
       value: 
