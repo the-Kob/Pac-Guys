@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
     public List<Vector3> startPositionsP2;
     public float respawnTime;
 
+    public List<BoxBehaviour> p1Boxes;
+    public List<BoxBehaviour> p2Boxes;
+
     public Transform pellets;
 
     public Text roundOverText;
@@ -63,13 +66,19 @@ public class GameManager : MonoBehaviour
             if(state == RoundState.p1)
             {
                 p1Score++;
-            } else if(state == RoundState.p2)
+                p1Boxes[p1Score - 1].On();
+            } 
+            else if(state == RoundState.p2)
             {
                 p2Score++;
-            } else if(state == RoundState.none)
+                p2Boxes[p2Score - 1].On();
+            }
+            else if(state == RoundState.none)
             {
                 p1Score++;
+                p1Boxes[p1Score - 1].On();
                 p2Score++;
+                p2Boxes[p2Score - 1].On();
             }
         }
 
@@ -77,6 +86,14 @@ public class GameManager : MonoBehaviour
         {
             p1Score = 0;
             p2Score = 0;
+
+            foreach(BoxBehaviour box in p1Boxes){
+                box.Off();
+            }
+
+            foreach(BoxBehaviour box in p2Boxes){
+                box.Off();
+            }
         }
 
         public String WinMessage()
